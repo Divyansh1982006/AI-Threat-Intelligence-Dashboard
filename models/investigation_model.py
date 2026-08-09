@@ -6,6 +6,7 @@ from typing import Any
 class Investigation:
     ioc: str
     ioc_type: str
+    investigation_plan: list[str] = field(default_factory=list)
     results: dict[str, Any] = field(default_factory=dict)
     threat_score: float = 0.0
     severity: str = "Unknown"
