@@ -2,22 +2,25 @@ import os
 import requests
 from dotenv import load_dotenv
 
-load_dotenv()
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+ENV_FILE = os.path.join(BASE_DIR, ".env")
+
+load_dotenv(ENV_FILE)
+
+API_KEY = os.getenv("ABUSEIPDB_API_KEY")
 
 
-def check_ip(ip: str) -> dict:
-    api_key = os.getenv("ABUSEIPDB_API_KEY")
-
-    if not api_key:
+def check_ip(ip):
+    if not API_KEY:
         return {
             "status": "error",
-            "message": "ABUSEIPDB_API_KEY not configured"
+            "message": "AbuseIPDB API key not configured"
         }
 
     url = "https://api.abuseipdb.com/api/v2/check"
 
     headers = {
-        "Key": api_key,
+        "Key": API_KEY,
         "Accept": "application/json"
     }
 
@@ -41,12 +44,16 @@ def check_ip(ip: str) -> dict:
         return {
             "status": "success",
             "ip": data.get("ipAddress"),
+            "abuse_confidence": data.get("abuseConfidenceScore"),
             "country": data.get("countryCode"),
+            "usage_type": data.get("usageType"),
             "isp": data.get("isp"),
             "domain": data.get("domain"),
-            "usage_type": data.get("usageType"),
-            "abuse_confidence": data.get("abuseConfidenceScore"),
+            "hostnames": data.get("hostnames", []),
+            "is_tor": data.get("isTor"),
+            "is_whitelisted": data.get("isWhitelisted"),
             "total_reports": data.get("totalReports"),
+            "distinct_users": data.get("numDistinctUsers"),
             "last_reported": data.get("lastReportedAt")
         }
 

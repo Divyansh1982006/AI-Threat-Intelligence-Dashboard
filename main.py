@@ -6,7 +6,7 @@ from tools.tool_executor import execute_tools
 
 def main():
     print("=" * 60)
-    print("       AI Threat Intelligence Investigation Tool")
+    print("       AI THREAT INTELLIGENCE INVESTIGATION TOOL")
     print("=" * 60)
 
     ioc = input("\nEnter IOC: ").strip()
@@ -46,12 +46,34 @@ def main():
         print(f"[+] {tool}")
 
     print("\n" + "-" * 60)
-    print("TOOL STATUS")
+    print("THREAT INTELLIGENCE")
     print("-" * 60)
 
     for tool, result in investigation.results.items():
-        status = result.get("status", "unknown").upper()
-        print(f"{tool:<15} {status}")
+
+        print(f"\n[{tool}]")
+
+        if result.get("status") == "success":
+
+            if tool == "AbuseIPDB":
+                print(f"IP               : {result.get('ip')}")
+                print(f"Abuse Confidence : {result.get('abuse_confidence')}%")
+                print(f"Country          : {result.get('country')}")
+                print(f"ISP              : {result.get('isp')}")
+                print(f"Domain           : {result.get('domain')}")
+                print(f"Usage Type       : {result.get('usage_type')}")
+                print(f"Total Reports    : {result.get('total_reports')}")
+                print(f"Distinct Users   : {result.get('distinct_users')}")
+                print(f"Tor              : {result.get('is_tor')}")
+                print(f"Whitelisted      : {result.get('is_whitelisted')}")
+                print(f"Last Reported    : {result.get('last_reported')}")
+
+        elif result.get("status") == "pending":
+            print("Status           : PENDING")
+
+        else:
+            print("Status           : ERROR")
+            print(f"Message          : {result.get('message')}")
 
     print("\n" + "=" * 60)
 
