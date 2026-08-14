@@ -68,6 +68,17 @@ def main():
                 print(f"Whitelisted      : {result.get('is_whitelisted')}")
                 print(f"Last Reported    : {result.get('last_reported')}")
 
+            elif tool == "VirusTotal":
+                print(f"IP               : {result.get('ip')}")
+                print(f"Malicious        : {result.get('malicious')}")
+                print(f"Suspicious       : {result.get('suspicious')}")
+                print(f"Harmless         : {result.get('harmless')}")
+                print(f"Undetected       : {result.get('undetected')}")
+                print(f"Reputation       : {result.get('reputation')}")
+                print(f"Country          : {result.get('country')}")
+                print(f"AS Owner         : {result.get('as_owner')}")
+                print(f"Network          : {result.get('network')}")
+
         elif result.get("status") == "pending":
             print("Status           : PENDING")
 
