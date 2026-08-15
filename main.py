@@ -78,6 +78,15 @@ def main():
                 print(f"Country          : {result.get('country')}")
                 print(f"AS Owner         : {result.get('as_owner')}")
                 print(f"Network          : {result.get('network')}")
+                
+            elif tool == "OTX":
+                print(f"IOC              : {result.get('ioc')}")
+                print(f"Pulse Count      : {result.get('pulse_count')}")
+                print(f"Reputation       : {result.get('reputation')}")
+                print(f"Country          : {result.get('country')}")
+                print(f"ASN              : {result.get('asn')}")
+                print(f"City             : {result.get('city')}")
+                print(f"Continent        : {result.get('continent')}")
 
         elif result.get("status") == "pending":
             print("Status           : PENDING")
