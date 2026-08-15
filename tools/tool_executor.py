@@ -6,6 +6,12 @@ from tools.virustotal import (
     check_url as virustotal_url,
     check_hash as virustotal_hash,
 )
+from tools.otx import (
+    check_ip as otx_ip,
+    check_domain as otx_domain,
+    check_url as otx_url,
+    check_hash as otx_hash,
+)
 
 
 TOOL_HANDLERS = {
@@ -19,6 +25,14 @@ TOOL_HANDLERS = {
         "MD5": virustotal_hash,
         "SHA1": virustotal_hash,
         "SHA256": virustotal_hash,
+    },
+    "OTX": {
+        "IP": otx_ip,
+        "DOMAIN": otx_domain,
+        "URL": otx_url,
+        "MD5": otx_hash,
+        "SHA1": otx_hash,
+        "SHA256": otx_hash,
     },
 }
 
