@@ -76,7 +76,7 @@ def main():
                 print(f"Harmless         : {result.get('harmless')}")
                 print(f"Undetected       : {result.get('undetected')}")
                 print(f"Reputation       : {result.get('reputation')}")
-                
+
             elif tool == "OTX":
                 print(f"IOC              : {result.get('ioc')}")
                 print(f"Pulse Count      : {result.get('pulse_count')}")
@@ -85,6 +85,30 @@ def main():
                 print(f"ASN              : {result.get('asn')}")
                 print(f"City             : {result.get('city')}")
                 print(f"Continent        : {result.get('continent')}")
+
+            elif tool == "Shodan":
+                print(f"Country          : {result.get('country')}")
+                print(f"City             : {result.get('city')}")
+                print(f"Organization     : {result.get('organization')}")
+                print(f"ISP              : {result.get('isp')}")
+                print(f"ASN              : {result.get('asn')}")
+                print(f"Open Ports       : {result.get('open_ports')}")
+
+                print("\nServices:")
+
+                for service in result.get("services", []):
+                    print(
+                        f"  Port {service.get('port')} | "
+                        f"{service.get('transport')} | "
+                        f"{service.get('product') or ''} "
+                        f"{service.get('version') or ''}"
+                    )
+
+                    if service.get("banner"):
+                        print(f"    Banner : {service.get('banner')}")
+
+                    if service.get("ssl"):
+                        print("    SSL    : Available")
 
         elif result.get("status") == "pending":
             print("Status           : PENDING")
