@@ -69,15 +69,13 @@ def main():
                 print(f"Last Reported    : {result.get('last_reported')}")
 
             elif tool == "VirusTotal":
-                print(f"IP               : {result.get('ip')}")
+                print(f"IOC              : {result.get('ioc')}")
+                print(f"IOC Type         : {result.get('ioc_type')}")
                 print(f"Malicious        : {result.get('malicious')}")
                 print(f"Suspicious       : {result.get('suspicious')}")
                 print(f"Harmless         : {result.get('harmless')}")
                 print(f"Undetected       : {result.get('undetected')}")
                 print(f"Reputation       : {result.get('reputation')}")
-                print(f"Country          : {result.get('country')}")
-                print(f"AS Owner         : {result.get('as_owner')}")
-                print(f"Network          : {result.get('network')}")
                 
             elif tool == "OTX":
                 print(f"IOC              : {result.get('ioc')}")
