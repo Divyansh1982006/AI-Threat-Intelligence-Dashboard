@@ -1,22 +1,19 @@
 from models.investigation_model import Investigation
-
 from tools.abuseipdb import check_ip as abuseipdb_check
-
 from tools.virustotal import (
     check_ip as virustotal_ip,
     check_domain as virustotal_domain,
     check_url as virustotal_url,
     check_hash as virustotal_hash
 )
-
 from tools.otx import (
     check_ip as otx_ip,
     check_domain as otx_domain,
     check_url as otx_url,
     check_hash as otx_hash
 )
-
 from tools.shodan import check_ip as shodan_ip
+from tools.whois import check_domain as whois_domain
 
 
 TOOL_HANDLERS = {
@@ -44,6 +41,10 @@ TOOL_HANDLERS = {
 
     "Shodan": {
         "IP": shodan_ip
+    },
+
+    "WHOIS": {
+        "DOMAIN": whois_domain
     }
 }
 

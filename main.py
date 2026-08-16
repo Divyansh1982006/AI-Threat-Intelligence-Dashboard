@@ -86,6 +86,14 @@ def main():
                 print(f"City             : {result.get('city')}")
                 print(f"Continent        : {result.get('continent')}")
 
+            elif tool == "WHOIS":
+                print(f"Domain           : {result.get('domain')}")
+                print(f"Registrar        : {result.get('registrar')}")
+                print(f"Creation Date    : {result.get('creation_date')}")
+                print(f"Expiry Date      : {result.get('expiration_date')}")
+                print(f"Nameservers      : {result.get('name_servers')}")
+                print(f"Domain Status    : {result.get('status_info')}")
+
             elif tool == "Shodan":
                 print(f"Country          : {result.get('country')}")
                 print(f"City             : {result.get('city')}")
