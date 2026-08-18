@@ -1,5 +1,5 @@
 from models.investigation_model import Investigation
-from tools.abuseipdb import check_ip as abuseipdb_check
+from tools.abuselipdb import check_ip as abuseipdb_check
 from tools.virustotal import (
     check_ip as virustotal_ip,
     check_domain as virustotal_domain,
@@ -16,6 +16,7 @@ from tools.shodan import check_ip as shodan_ip
 from tools.whois import check_domain as whois_domain
 from tools.dns import check_domain as dns_domain
 from tools.geoip import check_ip as geoip_check
+from tools.malware import check_hash as malwarebazaar_check
 
 
 TOOL_HANDLERS = {
@@ -55,7 +56,13 @@ TOOL_HANDLERS = {
 
     "GeoIP": {
         "IP": geoip_check
+    },
+    "MalwareBazaar": {
+        "MD5": malwarebazaar_check,
+        "SHA1": malwarebazaar_check,
+        "SHA256": malwarebazaar_check
     }
+
 }
 
 
@@ -66,6 +73,7 @@ def execute_tools(investigation: Investigation) -> Investigation:
     for tool in investigation.investigation_plan:
 
         # Check whether the tool exists
+
         if tool not in TOOL_HANDLERS:
             results[tool] = {
                 "status": "pending",
@@ -74,6 +82,7 @@ def execute_tools(investigation: Investigation) -> Investigation:
             continue
 
         # Check whether this IOC type is supported by the tool
+
         if investigation.ioc_type not in TOOL_HANDLERS[tool]:
             results[tool] = {
                 "status": "unsupported",

@@ -77,6 +77,16 @@ def main():
                 print(f"Undetected       : {result.get('undetected')}")
                 print(f"Reputation       : {result.get('reputation')}")
 
+            elif tool == "MalwareBazaar":
+                print(f"Hash             : {result.get('hash')}")
+                print(f"File Name        : {result.get('file_name')}")
+                print(f"File Type        : {result.get('file_type')}")
+                print(f"Signature        : {result.get('signature')}")
+                print(f"First Seen       : {result.get('first_seen')}")
+                print(f"Last Seen        : {result.get('last_seen')}")
+                print(f"Tags             : {result.get('tags')}")
+                print(f"Delivery Method  : {result.get('delivery_method')}")
+
             elif tool == "OTX":
                 print(f"IOC              : {result.get('ioc')}")
                 print(f"Pulse Count      : {result.get('pulse_count')}")
@@ -138,6 +148,10 @@ def main():
 
         elif result.get("status") == "pending":
             print("Status           : PENDING")
+
+        elif result.get("status") == "not_found":
+            print("Status           : NOT FOUND")
+            print(f"Message          : {result.get('message')}")
 
         else:
             print("Status           : ERROR")
