@@ -94,6 +94,12 @@ def main():
                 print(f"Nameservers      : {result.get('name_servers')}")
                 print(f"Domain Status    : {result.get('status_info')}")
 
+            elif tool == "DNS":
+                print(f"Domain           : {result.get('domain')}")
+
+                for record_type, values in result.get("records", {}).items():
+                    print(f"{record_type:<17}: {values}")
+
             elif tool == "Shodan":
                 print(f"Country          : {result.get('country')}")
                 print(f"City             : {result.get('city')}")

@@ -14,6 +14,7 @@ from tools.otx import (
 )
 from tools.shodan import check_ip as shodan_ip
 from tools.whois import check_domain as whois_domain
+from tools.dns import check_domain as dns_domain
 
 
 TOOL_HANDLERS = {
@@ -45,6 +46,10 @@ TOOL_HANDLERS = {
 
     "WHOIS": {
         "DOMAIN": whois_domain
+    },
+
+    "DNS": {
+        "DOMAIN": dns_domain
     }
 }
 
