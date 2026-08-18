@@ -86,6 +86,18 @@ def main():
                 print(f"City             : {result.get('city')}")
                 print(f"Continent        : {result.get('continent')}")
 
+            elif tool == "GeoIP":
+                print(f"IP               : {result.get('ip')}")
+                print(f"Country          : {result.get('country')}")
+                print(f"Region           : {result.get('region')}")
+                print(f"City             : {result.get('city')}")
+                print(f"Latitude         : {result.get('latitude')}")
+                print(f"Longitude        : {result.get('longitude')}")
+                print(f"Timezone         : {result.get('timezone')}")
+                print(f"ISP              : {result.get('isp')}")
+                print(f"Organization     : {result.get('organization')}")
+                print(f"ASN              : {result.get('asn')}")
+
             elif tool == "WHOIS":
                 print(f"Domain           : {result.get('domain')}")
                 print(f"Registrar        : {result.get('registrar')}")

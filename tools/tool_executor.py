@@ -15,6 +15,7 @@ from tools.otx import (
 from tools.shodan import check_ip as shodan_ip
 from tools.whois import check_domain as whois_domain
 from tools.dns import check_domain as dns_domain
+from tools.geoip import check_ip as geoip_check
 
 
 TOOL_HANDLERS = {
@@ -50,6 +51,10 @@ TOOL_HANDLERS = {
 
     "DNS": {
         "DOMAIN": dns_domain
+    },
+
+    "GeoIP": {
+        "IP": geoip_check
     }
 }
 
