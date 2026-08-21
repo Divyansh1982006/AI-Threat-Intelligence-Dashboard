@@ -1,7 +1,10 @@
-from detector.ioc_detector import detect_ioc_type
+from detector.ioc_detector import detect_ioc_type, IOCType
 from models.investigation_model import Investigation
 from agent.investigation_agent import create_investigation_plan
 from tools.tool_executor import execute_tools
+from engine.correlation import correlate_evidence
+from engine.threat_score import calculate_threat_score
+from engine.ai_analysis import generate_ai_analysis
 
 
 def main():
@@ -17,7 +20,7 @@ def main():
 
     ioc_type = detect_ioc_type(ioc)
 
-    if ioc_type is None:
+    if ioc_type is None or ioc_type == IOCType.UNKNOWN:
         print("\n[!] Unable to identify IOC type.")
         return
 
@@ -28,6 +31,9 @@ def main():
 
     investigation = create_investigation_plan(investigation)
     investigation = execute_tools(investigation)
+    investigation = correlate_evidence(investigation)
+    investigation = calculate_threat_score(investigation)
+    investigation = generate_ai_analysis(investigation)
 
     print("\n" + "=" * 60)
     print("                 INVESTIGATION")
@@ -35,7 +41,8 @@ def main():
 
     print(f"IOC       : {investigation.ioc}")
     print(f"Type      : {investigation.ioc_type}")
-    print(f"Risk      : {investigation.threat_score}")
+    print(f"Risk      : {investigation.threat_score}/100")
+    print(f"Confidence: {investigation.confidence}%")
     print(f"Severity  : {investigation.severity}")
 
     print("\n" + "-" * 60)
@@ -153,9 +160,50 @@ def main():
             print("Status           : NOT FOUND")
             print(f"Message          : {result.get('message')}")
 
-        else:
+        elif result.get("status") == "unavailable":
+            print("Status           : UNAVAILABLE")
+            print(f"Message          : {result.get('message')}")
+
+        elif result.get("status") == "error":
             print("Status           : ERROR")
             print(f"Message          : {result.get('message')}")
+
+        elif result.get("status") == "unsupported":
+            print("Status           : UNSUPPORTED")
+            print(f"Message          : {result.get('message')}")
+
+        else:
+            print(f"Status           : {result.get('status', 'UNKNOWN')}")
+
+    print("\n" + "-" * 60)
+    print("SCORE BREAKDOWN")
+    print("-" * 60)
+
+    for line in investigation.score_breakdown:
+        print(f"[*] {line}")
+
+    print("\n" + "-" * 60)
+    print("CORRELATION NOTES")
+    print("-" * 60)
+
+    for note in investigation.correlation_notes:
+        print(f"[*] {note}")
+
+    print("\n" + "-" * 60)
+    print("AI ANALYSIS")
+    print("-" * 60)
+
+    print(investigation.summary or "(no summary generated)")
+
+    print("\n" + "-" * 60)
+    print("ANALYST RECOMMENDATION")
+    print("-" * 60)
+
+    if investigation.recommendations:
+        for rec in investigation.recommendations:
+            print(f"[>] {rec}")
+    else:
+        print("(no recommendations generated)")
 
     print("\n" + "=" * 60)
 

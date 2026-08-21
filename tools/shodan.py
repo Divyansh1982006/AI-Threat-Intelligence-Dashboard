@@ -2,18 +2,14 @@ import os
 import requests
 from dotenv import load_dotenv
 
-
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-ENV_FILE = os.path.join(BASE_DIR, ".env")
-
-load_dotenv(ENV_FILE)
+load_dotenv()
 
 API_KEY = os.getenv("SHODAN_API_KEY")
-
 BASE_URL = "https://api.shodan.io"
 
 
 def check_ip(ip):
+
     if not API_KEY:
         return {
             "status": "error",
@@ -22,16 +18,24 @@ def check_ip(ip):
 
     url = f"{BASE_URL}/shodan/host/{ip}"
 
-    params = {
-        "key": API_KEY
-    }
-
     try:
         response = requests.get(
             url,
-            params=params,
+            params={"key": API_KEY},
             timeout=10
         )
+
+        if response.status_code == 401:
+            return {
+                "status": "error",
+                "message": "Shodan API key is invalid or unauthorized"
+            }
+
+        if response.status_code == 403:
+            return {
+                "status": "error",
+                "message": "Shodan access forbidden. Check API key/account permissions."
+            }
 
         response.raise_for_status()
 
@@ -39,35 +43,26 @@ def check_ip(ip):
 
         services = []
 
-        for item in data.get("data", []):
-
-            service = {
-                "port": item.get("port"),
-                "transport": item.get("transport"),
-                "product": item.get("product"),
-                "version": item.get("version"),
-                "banner": item.get("data"),
-                "ssl": item.get("ssl")
-            }
-
-            services.append(service)
+        for service in data.get("data", []):
+            services.append({
+                "port": service.get("port"),
+                "transport": service.get("transport"),
+                "product": service.get("product"),
+                "version": service.get("version"),
+                "banner": service.get("data"),
+                "ssl": bool(service.get("ssl"))
+            })
 
         return {
             "status": "success",
-            "ioc": ip,
-            "ioc_type": "IP",
-
             "country": data.get("country_name"),
             "city": data.get("city"),
             "organization": data.get("org"),
             "isp": data.get("isp"),
             "asn": data.get("asn"),
-
             "hostnames": data.get("hostnames", []),
             "domains": data.get("domains", []),
-
             "open_ports": data.get("ports", []),
-
             "services": services
         }
 
